@@ -1,27 +1,38 @@
-// Function to get computer's choice
-function getComputerChoice() {
-    const choices = ['rock', 'paper', 'scissors'];
+const choices = ["rock", "paper", "scissors"];
+
+function computerChoice() {
     const randomIndex = Math.floor(Math.random() * 3);
     return choices[randomIndex];
 }
 
+function play(playerChoice) {
+    const computer = computerChoice();
+    const resultText = document.getElementById("result-text");
+    const userChoiceText = document.getElementById("user-choice-text");
+    const computerChoiceText = document.getElementById("computer-choice-text");
 
-function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase(); // Make player input case-insensitive
+    // Update user and computer choice placeholders
+    userChoiceText.textContent = playerChoice;
+    computerChoiceText.textContent = computer;
 
-    if (playerSelection === computerSelection) {
-        return "It's a tie!";
+    if (playerChoice === computer) {
+        resultText.textContent = "It's a tie!";
     } else if (
-        (playerSelection === 'rock' && computerSelection === 'scissors') ||
-        (playerSelection === 'paper' && computerSelection === 'rock') ||
-        (playerSelection === 'scissors' && computerSelection === 'paper')
+        (playerChoice === "rock" && computer === "scissors") ||
+        (playerChoice === "paper" && computer === "rock") ||
+        (playerChoice === "scissors" && computer === "paper")
     ) {
-        return `You Win! ${playerSelection} beats ${computerSelection}`;
+        resultText.textContent = "You win!";
     } else {
-        return `You Lose! ${computerSelection} beats ${playerSelection}`;
+        resultText.textContent = "Computer wins!";
     }
-  }
+}
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+const choiceButtons = document.querySelectorAll(".choice");
+
+choiceButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const playerChoice = button.id;
+        play(playerChoice);
+    });
+});
